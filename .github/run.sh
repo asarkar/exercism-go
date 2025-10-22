@@ -29,11 +29,12 @@ while (( $# > 0 )); do
    esac
 done
 
-package=./...
+package="${1%/}" # Strip trailing slash, if any
+package="./${package:+$package/}..."
+
 if [[ -n "$1" && -z "$CI" ]]; then
 	# Delete project-specific `.mod` files.
 	find "$1" -type f -name "*.mod" -maxdepth 1 -exec rm -f {} +
-	package=./"$1"/...
 fi
 
 if (( no_test == 0 )); then

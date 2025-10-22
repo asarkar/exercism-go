@@ -4,10 +4,10 @@ package weather
 
 var (
 	// CurrentCondition represents the current weather condition.
-	//nolint:gochecknoglobals
+	//nolint:gochecknoglobals // this exercise uses global variables.
 	CurrentCondition string
 	// CurrentLocation represents the city.
-	//nolint:gochecknoglobals
+	//nolint:gochecknoglobals // this exercise uses global variables.
 	CurrentLocation string
 )
 

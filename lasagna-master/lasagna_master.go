@@ -1,5 +1,7 @@
 package lasagna
 
+import "slices"
+
 func PreparationTime(layers []string, prepTimePerLayer int) int {
 	if prepTimePerLayer == 0 {
 		prepTimePerLayer = 2
@@ -26,10 +28,17 @@ func AddSecretIngredient(friendsList, myList []string) {
 }
 
 func ScaleRecipe(quantities []float64, numPortions int) []float64 {
-	scaledQuantities := make([]float64, len(quantities))
 	n := float64(numPortions)
-	for i := range quantities {
-		scaledQuantities[i] = quantities[i] / 2 * n
-	}
-	return scaledQuantities
+	// Go >= 1.23.
+	// https://stackoverflow.com/a/78185810/839733
+	// https://bitfieldconsulting.com/posts/iterators
+	return slices.Collect(
+		func(yield func(float64) bool) {
+			for i := range quantities {
+				if !yield(quantities[i] / 2 * n) {
+					return
+				}
+			}
+		},
+	)
 }

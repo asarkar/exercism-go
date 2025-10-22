@@ -1,6 +1,9 @@
 package expenses
 
-import "errors"
+import (
+	"errors"
+	"slices"
+)
 
 // Record represents an expense record.
 type Record struct {
@@ -20,13 +23,20 @@ func Filter(records []Record, predicate func(Record) bool) []Record {
 	if predicate == nil {
 		return records
 	}
-	res := make([]Record, 0)
-	for _, r := range records {
-		if predicate(r) {
-			res = append(res, r)
-		}
-	}
-	return res
+	// Go >= 1.23.
+	// https://stackoverflow.com/a/78185810/839733
+	// https://bitfieldconsulting.com/posts/iterators
+	return slices.Collect(
+		func(yield func(Record) bool) {
+			for _, r := range records {
+				if predicate(r) {
+					if !yield(r) {
+						return
+					}
+				}
+			}
+		},
+	)
 }
 
 // ByDaysPeriod returns predicate function that returns true when

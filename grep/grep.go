@@ -1,6 +1,7 @@
 package grep
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"regexp"
@@ -33,7 +34,7 @@ func newFlags(flagList []string, multipleFiles bool) flags {
 func Search(pattern string, flagList []string, files []string) []string {
 	fs := newFlags(flagList, len(files) > 1)
 
-	regex := strings.ReplaceAll(makePattern(fs), "{}", pattern)
+	regex := makePattern(fs, pattern)
 	re := regexp.MustCompile(regex)
 
 	var result []string
@@ -52,7 +53,7 @@ func Search(pattern string, flagList []string, files []string) []string {
 }
 
 // `makePattern` constructs the regex pattern based on flags.
-func makePattern(fs flags) string {
+func makePattern(fs flags, pattern string) string {
 	var builder strings.Builder
 
 	if fs.caseInsensitive {
@@ -62,7 +63,7 @@ func makePattern(fs flags) string {
 		builder.WriteString("^")
 	}
 
-	builder.WriteString("(?:{})")
+	builder.WriteString(fmt.Sprintf("(?:%s)", pattern))
 
 	if fs.wholeLine {
 		builder.WriteString("$")

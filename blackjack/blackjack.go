@@ -1,4 +1,3 @@
-//nolint:cyclop // don't worry about cyclomatic complexity
 package blackjack
 
 // ParseCard returns the integer value of a card following blackjack ruleset.
@@ -23,13 +22,7 @@ func ParseCard(card string) int {
 		value = 8
 	case "nine":
 		value = 9
-	case "ten":
-		fallthrough
-	case "jack":
-		fallthrough
-	case "queen":
-		fallthrough
-	case "king":
+	case "ten", "jack", "queen", "king":
 		value = 10
 	default:
 		value = 0

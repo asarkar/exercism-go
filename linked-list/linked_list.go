@@ -43,23 +43,14 @@ func NewList(elements ...any) *List {
 }
 
 func (node *Node) Next() *Node {
-	if node == nil {
-		return nil
-	}
 	return node.next
 }
 
 func (node *Node) Prev() *Node {
-	if node == nil {
-		return nil
-	}
 	return node.prev
 }
 
 func (list *List) Unshift(v any) {
-	if list == nil {
-		panic("empty list")
-	}
 	node := &Node{Value: v}
 	node.next = list.head
 	if list.head == nil {
@@ -72,7 +63,7 @@ func (list *List) Unshift(v any) {
 }
 
 func (list *List) Shift() (any, error) {
-	if list == nil || list.head == nil {
+	if list.head == nil {
 		return nil, errEmpty
 	}
 	node := list.head
@@ -89,9 +80,6 @@ func (list *List) Shift() (any, error) {
 }
 
 func (list *List) Push(v any) {
-	if list == nil {
-		panic("empty list")
-	}
 	node := &Node{Value: v}
 	node.prev = list.tail
 	if list.tail == nil {
@@ -104,7 +92,7 @@ func (list *List) Push(v any) {
 }
 
 func (list *List) Pop() (any, error) {
-	if list == nil || list.head == nil {
+	if list.head == nil {
 		return nil, errEmpty
 	}
 
@@ -123,7 +111,7 @@ func (list *List) Pop() (any, error) {
 }
 
 func (list *List) Reverse() {
-	if list == nil || list.head == nil {
+	if list.head == nil {
 		return
 	}
 	prev := list.head

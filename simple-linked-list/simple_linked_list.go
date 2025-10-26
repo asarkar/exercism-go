@@ -16,9 +16,7 @@ type List struct {
 }
 
 func New(elements []int) *List {
-	list := &List{
-		head: nil,
-	}
+	list := &List{}
 	for _, v := range elements {
 		list.Push(v)
 	}
@@ -38,11 +36,7 @@ func (list *List) Size() int {
 	return count
 }
 
-// Tests expect push to append an element at the end.
-// Instead of traversing the list for every push operation,
-// we prepend the element at the front.
-// If the list is converted to an array, we reverse the array
-// to match the expectation in the tests.
+// `Push` prepends the element at the front.
 func (list *List) Push(element int) {
 	node := &Node{Value: element}
 	node.next = list.head
@@ -59,7 +53,9 @@ func (list *List) Pop() (int, error) {
 	return node.Value, nil
 }
 
-// See the comment on `Push` about the order of elements in the array.
+// Tests expect the list to work like a stack (latest element on top),
+// but print like a queue (oldest element first). So, we reverse the
+// array before returning it.
 func (list *List) Array() []int {
 	node := list.head
 	var arr []int

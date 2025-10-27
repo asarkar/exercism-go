@@ -27,7 +27,7 @@ func Atbash(s string) string {
 	}
 
 	// Append remaining runes if any. We can't do this safely inside the for-loop
-	// because the loop variable counts bytes, not runes.
+	// because the loop variable iterates over each starting index of a rune.
 	// For example, for s="abé":
 	// - The last rune 'é' is 2 bytes, so when i=2, len(s)-1=3, we can't
 	//   reliably detect that the buffer needs to be appended to the cipher.

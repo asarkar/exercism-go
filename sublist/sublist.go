@@ -29,16 +29,16 @@ func kmpLoop(haystack, needle []int, start int, lps []int, buildLPS bool) int {
 	for i < len(needle) && j < len(haystack) {
 		switch {
 		case needle[i] == haystack[j]:
+			if buildLPS {
+				lps[j] = i + 1
+			}
 			i++
 			j++
-			if buildLPS {
-				lps[i] = i
-			}
 		case i > 0:
 			i = lps[i-1]
 		default:
 			if buildLPS {
-				lps[i] = 0
+				lps[j] = 0
 			}
 			j++
 		}
